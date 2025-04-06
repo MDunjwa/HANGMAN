@@ -81,6 +81,10 @@ def play(randomWord,blankWord):
     """
     A function that allows the player to guess a letter with up to 7 incorrect guesses
 
+        Args: randomWord (string): the word the user has to guess
+
+              blankWord (string): a string of udnerscores representning the unsolved word e.g. "_____" for the word "apple"
+    
     """
     wrongAttemptsAllowed = 7
     lettersCompleted = 0
