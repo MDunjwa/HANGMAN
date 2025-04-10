@@ -10,12 +10,12 @@ listOfMammals = ["rhino","leapord","buffalo","bear","wolf","sheep","hippo","pand
 listOfCountries = ["Spain","Croatia","Ghana","Senegal","Namibia","Scotland","Mexico","Brazil","Cuba","China","India"]
 
 #the WAV files we'll play 
-correctArchadeSound = "sounds\CorrectGuess.wav"
-repeatedGuessSound = "sounds\AlreadyGuessedThatLetter.wav"
-playerWinsSound = "sounds\Win.wav"
-wrongAnswerWAV = "sounds\Wrong.wav"
-repeatedGuessWAV = "sounds\AlreadyGuessedThatLetter.wav"
-youLoseWAV = "sounds\Lose.wav"
+correctArchadeSound = "sounds/CorrectGuess.wav"
+repeatedGuessSound = "sounds/AlreadyGuessedThatLetter.wav"
+playerWinsSound = "sounds/Win.wav"
+wrongAnswerWAV = "sounds/Wrong.wav"
+repeatedGuessWAV = "sounds/AlreadyGuessedThatLetter.wav"
+youLoseWAV = "sounds/Lose.wav"
 
 def chooseWord():
     """
@@ -29,7 +29,7 @@ def chooseWord():
         case 1:
             wordList = listOfFruits
             randomWord = random.choice(listOfFruits)
-            print("\nEnter a letter to guess if it is part of the word.\nHint: This item is edible! ")
+            print("\nEnter a letter to guess if it is part of the word.\nHint: This word is a fruit! ")
         case 2:
             wordList = listOfMammals
             randomWord = random.choice(listOfMammals)
@@ -128,6 +128,14 @@ def play(randomWord,blankWord):
                 
         
         else:
+            if letterChosen in lettersAlreadyGuessed:
+                repeatedGuessSound = pygame.mixer.Sound(repeatedGuessWAV)
+                repeatedGuessSound.play()
+                print(f"\nYou already guessed that letter. Try again. You have {wrongAttemptsAllowed} attempts left")
+                continue
+            else:
+                lettersAlreadyGuessed.append(letterChosen)
+
             wrongAttemptsAllowed -= 1
             if wrongAttemptsAllowed==0:
                 # # print()
@@ -136,7 +144,9 @@ def play(randomWord,blankWord):
                 gameOverSound1.play()
                 print("You are out of attempts")
                 print(text2art("GAMEOVER", font="block",chr_ignore=True))
-                time.sleep(3)
+                time.sleep(2)
+                print("The word was: ")
+                print(text2art(randomWord, font="block",chr_ignore=True))
                 sys.exit()    
 
             incorrectGuessSound = pygame.mixer.Sound(wrongAnswerWAV)
@@ -159,13 +169,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-"""
-Things to implement:
--accounting for inputting the same incorrect letter
--print instructions before game starts
--use a bigger, bolder font
-
--incorrect repeated guess, don't subtract attempts
--reveal the word when the game is over after a loss
-"""
