@@ -16,6 +16,7 @@ playerWinsSound = "sounds/Win.wav"
 wrongAnswerWAV = "sounds/Wrong.wav"
 repeatedGuessWAV = "sounds/AlreadyGuessedThatLetter.wav"
 youLoseWAV = "sounds/Lose.wav"
+startUpWAV = "sounds/Startup.wav"
 
 def chooseWord():
     """
@@ -91,6 +92,9 @@ def play(randomWord,blankWord):
     solved = False
     lettersAlreadyGuessed = []
 
+    time.sleep(0.5)
+    startupSound = pygame.mixer.Sound(startUpWAV)
+    startupSound.play() 
     while solved == False:
 
         correctGuess = False
@@ -102,7 +106,7 @@ def play(randomWord,blankWord):
             if letterChosen in lettersAlreadyGuessed:
                 repeatedGuessSound = pygame.mixer.Sound(repeatedGuessWAV)
                 repeatedGuessSound.play()
-                print(f"\nYou already guessed that letter. Try again. You have {wrongAttemptsAllowed} attempts left")
+                print(f"\nYou already guessed that letter. Try again. You still have {wrongAttemptsAllowed} attempts left")
                 continue
             else:
                 lettersAlreadyGuessed.append(letterChosen)
@@ -113,9 +117,9 @@ def play(randomWord,blankWord):
             if wrongAttemptsAllowed!= 0 and lettersCompleted!= len(randomWord):
                 match wrongAttemptsAllowed:
                     case 1:
-                        print(f"CORRECT. You have 1 attempt left")
+                        print(f"CORRECT. You still have 1 attempt left")
                     case _:
-                        print(f"CORRECT. You have {wrongAttemptsAllowed} attempts left")
+                        print(f"CORRECT. You still have {wrongAttemptsAllowed} attempts left")
             elif lettersCompleted == len(randomWord):
                 youWinSound = pygame.mixer.Sound(playerWinsSound)
                 print(text2art(wordWithPlayerGuess, font="block",chr_ignore=True))
@@ -131,7 +135,7 @@ def play(randomWord,blankWord):
             if letterChosen in lettersAlreadyGuessed:
                 repeatedGuessSound = pygame.mixer.Sound(repeatedGuessWAV)
                 repeatedGuessSound.play()
-                print(f"\nYou already guessed that letter. Try again. You have {wrongAttemptsAllowed} attempts left")
+                print(f"\nYou already guessed that letter. Try again. You still have {wrongAttemptsAllowed} attempts left")
                 continue
             else:
                 lettersAlreadyGuessed.append(letterChosen)
@@ -151,7 +155,7 @@ def play(randomWord,blankWord):
 
             incorrectGuessSound = pygame.mixer.Sound(wrongAnswerWAV)
             incorrectGuessSound.play()
-            print(f"INCORRECT. You have {wrongAttemptsAllowed} attempts left")
+            print(f"INCORRECT. You still have {wrongAttemptsAllowed} attempts left")
 
         print(text2art(wordWithPlayerGuess, font="block",chr_ignore=True))
         blankWord = wordWithPlayerGuess
